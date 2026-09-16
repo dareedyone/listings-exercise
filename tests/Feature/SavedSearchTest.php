@@ -37,7 +37,6 @@ class SavedSearchTest extends TestCase
     }
 
     public function test_saved_search_can_store_a_region(): void
-
     {
 
         $savedSearch = SavedSearch::factory()

@@ -6,6 +6,8 @@ const props = defineProps({
     branches: { type: Array, required: true },
     propertyTypes: { type: Array, required: true },
     processing: { type: Boolean, default: false },
+    submitLabel: { type: String, default: 'Search' },
+    showClearButton: { type: Boolean, default: true },
 });
 
 const emit = defineEmits(['update:modelValue', 'submit', 'reset']);
@@ -93,11 +95,11 @@ const fieldClasses =
             :disabled="processing"
             class="rounded-lg bg-slate-900 px-5 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-50"
         >
-            Search
+            {{ submitLabel }}
         </button>
 
         <button
-            v-if="hasFilters"
+            v-if="showClearButton && hasFilters"
             type="button"
             class="rounded-lg px-3 py-2 text-sm text-slate-500 underline-offset-2 hover:underline"
             @click="emit('reset')"

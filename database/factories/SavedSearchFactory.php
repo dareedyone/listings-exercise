@@ -37,7 +37,6 @@ class SavedSearchFactory extends Factory
     }
 
     public function forRegion(string $region): static
-
     {
 
         return $this->state([
@@ -47,10 +46,9 @@ class SavedSearchFactory extends Factory
         ]);
     }
 
-
     public function withPriceRange(int $min, int $max): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'min_price' => $min,
             'max_price' => $max,
         ]);
@@ -58,7 +56,7 @@ class SavedSearchFactory extends Factory
 
     public function withBedrooms(int $min, ?int $max = null): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'min_bedrooms' => $min,
             'max_bedrooms' => $max,
         ]);
@@ -66,14 +64,14 @@ class SavedSearchFactory extends Factory
 
     public function withPropertyType(PropertyType $propertyType): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'property_type' => $propertyType,
         ]);
     }
 
     public function live(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => ListingStatus::Live,
         ]);
     }
