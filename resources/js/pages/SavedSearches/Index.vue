@@ -61,8 +61,8 @@ function deleteSearch(id) {
                     </h2>
 
                     <div class="mt-2 flex flex-wrap gap-2 text-sm text-slate-600">
-                        <span v-if="savedSearch.property_type">
-                            {{ savedSearch.property_type }}
+                        <span v-if="savedSearch.property_type_label">
+                            {{ savedSearch.property_type_label }}
                         </span>
 
                         <span v-if="savedSearch.region">

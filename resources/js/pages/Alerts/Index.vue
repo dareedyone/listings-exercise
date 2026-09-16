@@ -42,14 +42,14 @@ defineProps({
         <p class="mb-2 text-sm font-medium text-gray-500">New property match</p>
 
         <h2 class="text-lg font-semibold text-gray-900">
-          {{ alert.listing.address }}
+          {{ alert.listing.address_line_1 }}
         </h2>
 
         <p class="mt-2 text-gray-600">
           £{{ Number(alert.listing.price).toLocaleString() }}
 
           · {{ alert.listing.bedrooms }} bedrooms ·
-          {{ alert.listing.property_type.label }}
+          {{ alert.listing.property_type_label }}
         </p>
 
         <p class="mt-1 text-sm text-gray-500">

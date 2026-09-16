@@ -1,5 +1,6 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Head, router } from '@inertiajs/vue3';
 import AppLayout from '../../components/AppLayout.vue';
 import ListingFilters from '../../components/ListingFilters.vue';
 import BackButton from '../../components/BackButton.vue';
@@ -10,16 +11,20 @@ const props = defineProps({
     propertyTypes: { type: Array, required: true },
 });
 
-const form = useForm({
+const processing = ref(false);
+
+const form = ref({
     property_type: props.filters.property_type ?? '',
     region: props.filters.region ?? '',
     min_bedrooms: props.filters.min_bedrooms ?? '',
     max_price: props.filters.max_price ?? '',
 });
 
-
 function save() {
-    form.post('/saved-searches');
+    router.post('/saved-searches', form.value, {
+        onStart: () => (processing.value = true),
+        onFinish: () => (processing.value = false),
+    });
 }
 </script>
 
@@ -36,7 +41,7 @@ function save() {
             v-model="form"
             :branches="branches"
             :property-types="propertyTypes"
-            :processing="form.processing"
+            :processing="processing"
             submit-label="Save search"
             :show-clear-button="false"
             @submit="save"
