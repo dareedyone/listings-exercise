@@ -26,6 +26,12 @@ function deleteSearch(id) {
         subheading="Searches you've saved for property alerts."
     >
         <BackButton label="← Back" />
+        <Link
+            href="/alerts"
+            class="mb-6 block text-sm text-slate-500 hover:text-slate-900"
+        >
+             View alerts →
+        </Link>
 
         <div
             v-if="savedSearches.length === 0"

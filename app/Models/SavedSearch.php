@@ -8,6 +8,7 @@ use Database\Factories\SavedSearchFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -24,7 +25,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property PropertyType|null $property_type
  * @property ListingStatus|null $status
  * @property-read User $user
- * @property-read Branch|null $branch
  */
 class SavedSearch extends Model
 {
@@ -69,5 +69,14 @@ class SavedSearch extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<SavedSearchMatch, $this>
+     */
+    public function matches(): HasMany
+    {
+
+        return $this->hasMany(SavedSearchMatch::class);
     }
 }
