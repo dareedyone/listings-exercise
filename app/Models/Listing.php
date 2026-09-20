@@ -91,4 +91,49 @@ class Listing extends Model
     {
         return $this->hasMany(SavedSearchMatch::class);
     }
+
+    /**
+     * @param  Builder<Listing>  $query
+     * @param array{
+     *     property_type?: mixed,
+     *     max_price?: mixed,
+     *     min_bedrooms?: mixed,
+     *     region?: mixed,
+     * } $filters
+     */
+    public function scopeMatching(
+        Builder $query,
+        array $filters,
+    ): void {
+        $query
+            ->when(
+                $filters['property_type'] ?? null,
+                function (Builder $query, mixed $propertyType): void {
+                    $query->where('property_type', $propertyType);
+                },
+            )
+            ->when(
+                $filters['max_price'] ?? null,
+                function (Builder $query, mixed $maxPrice): void {
+                    $query->where('price', '<=', $maxPrice);
+                },
+            )
+            ->when(
+                $filters['min_bedrooms'] ?? null,
+                function (Builder $query, mixed $minBedrooms): void {
+                    $query->where('bedrooms', '>=', $minBedrooms);
+                },
+            )
+            ->when(
+                $filters['region'] ?? null,
+                function (Builder $query, mixed $region): void {
+                    $query->whereHas(
+                        'branch',
+                        function (Builder $query) use ($region): void {
+                            $query->where('region', $region);
+                        },
+                    );
+                },
+            );
+    }
 }
