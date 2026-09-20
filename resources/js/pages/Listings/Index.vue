@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, router } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../../components/AppLayout.vue';
 import ListingCard from '../../components/ListingCard.vue';
 import ListingFilters from '../../components/ListingFilters.vue';
@@ -24,11 +24,27 @@ const form = ref({
     max_price: props.filters.max_price ?? '',
 });
 
-function search() {
-    // Blank fields are dropped rather than sent empty, so the URL stays clean.
-    const query = Object.fromEntries(
+
+function getQueryString() {
+    return Object.fromEntries(
         Object.entries(form.value).filter(([, value]) => value !== '' && value !== null),
     );
+}
+
+const saveSearchUrl = computed(() => {
+    const query = getQueryString();
+
+    const search = new URLSearchParams(query).toString();
+
+    return search
+        ? `/saved-searches/create?${search}`
+        : '/saved-searches/create';
+});
+
+
+function search() {
+    // Blank fields are dropped rather than sent empty, so the URL stays clean.
+    const query = getQueryString();
 
     router.get('/', query, {
         preserveState: true,
@@ -60,7 +76,13 @@ function reset() {
             @reset="reset"
         />
 
-        <p class="mb-4 text-sm text-slate-500" aria-live="polite">
+        <Link
+            :href="saveSearchUrl"
+            class="inline-block text-sm font-medium text-slate-700 underline underline-offset-4 hover:text-slate-900">
+            Save this search for alerts
+        </Link>
+
+        <p class="my-4 text-sm text-slate-500" aria-live="polite">
             <span v-if="processing">Loading…</span>
             <span v-else>{{ listings.meta.total }} listing(s) found</span>
         </p>
